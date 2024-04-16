@@ -25,6 +25,7 @@ class DBStorage:
         pword = os.getenv('HBNB_MYSQL_PWD')
         host = os.getenv('HBNB_MYSQL_HOST')
         db_name = os.getenv('HBNB_MYSQL_DB')
+        env = os.getenv('HBNB_ENV')
 
         DATABASE_URL = "mysql+mysqldb://{}:{}@{}:3306/{}".format(
             user, pword, host, db_name
