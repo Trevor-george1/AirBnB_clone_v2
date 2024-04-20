@@ -9,6 +9,11 @@ from sqlalchemy.orm import relationship
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
     name = Column(
         String(128), nullable=False
     ) if os.getenv('HBNB_TYPE_STORAGE') == 'db' else ''
@@ -22,6 +27,7 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """Returns the cities in this state"""
+            from models.city import City
             from models.storage import storage
             cities_in_state = []
             for value in storage.all(City).values():

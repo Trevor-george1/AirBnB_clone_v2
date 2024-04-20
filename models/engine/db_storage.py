@@ -9,7 +9,7 @@ from models.user import User
 from models.review import Review
 
 import os
-from sqlalchemy import create_engine
+from sqlalchemy import MetaData, create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 import urllib.parse
 
@@ -32,19 +32,20 @@ class DBStorage:
         )
 
         self.__engine = create_engine(
+            echo=True,
             DATABASE_URL,
-            pool_pre_ping=True
+            pool_pre_ping=True,
         )
 
         if env == 'test':
-            Base.metadata.drop_all(self.__engine)
+            Base.MetaData.drop_all(self.__engine)
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
         objects = dict()
-        classes = {User, Amenity, Review, Place, State, City}
+        all_classes = {User, Amenity, Review, Place, State, City}
         if cls is None:
-            for class_type in classes:
+            for class_type in all_classes:
                 query = self.__session.query(class_type)
                 for obj in query.all():
                     obj_key = '{}.{}'.format(obj.__class__.__name__, obj.id)
@@ -58,15 +59,7 @@ class DBStorage:
 
     def new(self, obj):
         """add object to database"""
-
-        if obj is not None:
-            try:
-                self.__session.add(obj)
-                self.__session.flush()
-                self.__session.refresh(obj)
-            except Exception as ex:
-                self.__session.rollback()
-                raise ex
+        self.__session.add(obj)
 
     def save(self):
         """commit all changes to database"""
@@ -82,7 +75,7 @@ class DBStorage:
 
     def reload(self):
         """Loads storage databse"""
-        Base.metadata.create_all(self.__engine)
+        Base.MetaData.create_all(self.__engine)
         SessionFactory = sessionmaker(
             bind=self.__engine,
             expire_on_commit=False
