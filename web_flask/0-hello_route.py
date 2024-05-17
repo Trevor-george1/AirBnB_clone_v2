@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# scrpt that starts a FLAsk web application
+"""scrpt that starts a FLAsk web application"""
 from flask import Flask
 
 app = Flask(__name__)
@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 @app.route('/', strict_slashes=False)
 def hello():
+    """Routing to root"""
     return "Hello HBNB!"
 
 
