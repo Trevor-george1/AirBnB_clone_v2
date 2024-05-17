@@ -31,7 +31,7 @@ def python_text(text="is cool"):
     return f"Python {escape(text)}"
 
 
-@app.route('/number/<n>', strict_slashes=False)
+@app.route('/number/<int:n>', strict_slashes=False)
 def number_display(n):
     return "{} is a number".format(n)
 
