@@ -8,7 +8,7 @@
         <UL>
         {% if states %}
         {% for state in states.values()|sort(attribute='name') %}
-            <LI>{{ state.id }}: <B> {{ state.name }}</B></LI>
+            <LI>{{ state.id }}: <B>{{ state.name }}</B></LI>
         {% endfor %}
         {% endif %}
         </UL>
