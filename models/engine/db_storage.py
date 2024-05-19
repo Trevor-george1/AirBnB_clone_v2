@@ -9,7 +9,7 @@ from models.user import User
 from models.review import Review
 
 import os
-from sqlalchemy import MetaData, create_engine
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 import urllib.parse
 
@@ -27,18 +27,12 @@ class DBStorage:
         db_name = os.getenv('HBNB_MYSQL_DB')
         env = os.getenv('HBNB_ENV')
 
-        DATABASE_URL = "mysql+mysqldb://{}:{}@{}:3306/{}".format(
-            user, pword, host, db_name
-        )
-
-        self.__engine = create_engine(
-            echo=True,
-            DATABASE_URL,
-            pool_pre_ping=True,
-        )
+        self.__engine = create_engine("mysql+mysqldb://{}:{}@{}:3306/{}".format(
+            user, pword, host, db_name),
+            pool_pre_ping=True)
 
         if env == 'test':
-            Base.MetaData.drop_all(self.__engine)
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
@@ -75,7 +69,7 @@ class DBStorage:
 
     def reload(self):
         """Loads storage databse"""
-        Base.MetaData.create_all(self.__engine)
+        Base.metadata.create_all(self.__engine)
         SessionFactory = sessionmaker(
             bind=self.__engine,
             expire_on_commit=False

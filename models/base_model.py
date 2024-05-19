@@ -4,7 +4,7 @@ import uuid
 from datetime import datetime
 from sqlalchemy.orm import declarative_base
 from sqlalchemy import Column, Integer, String, DateTime
-from models import storage
+import models
 from os import getenv
 
 storage_type = getenv('HBNB_TYPE_STORAGE')
