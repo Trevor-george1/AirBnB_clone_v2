@@ -1,3 +1,5 @@
+#!/usr/bin/bash
+"""script that fetch data from sql database and render to html"""
 from flask import Flask, render_template
 from models import storage
 from models.state import State
