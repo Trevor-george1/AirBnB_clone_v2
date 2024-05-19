@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/python3
 """script that fetch data from sql database and render to html"""
 from flask import Flask, render_template
 from models import storage
