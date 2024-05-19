@@ -18,7 +18,7 @@ class State(BaseModel, Base):
             cascade='all, delete, delete-orphan',
             backref='state'
         )
-        
+
     @property
     def cities(self):
         """Returns the cities in this state"""
